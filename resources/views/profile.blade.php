@@ -9,9 +9,10 @@
 <body>
     <img src="/assets/img/image.png" class="profile-img" width="200px" alt="Profile Image">
     <div class="profile-info">
-        <div class="info-box"><?= $nama ?></div>
-        <div class="info-box"><?= $kelas ?></div>
-        <div class="info-box"><?= $npm ?></div>
+        <h1>Profil User</h1>
+        <p>Nama: {{ $nama }}</p>
+        <p>NPM: {{ $npm }}</p>
+        <p>Kelas: {{ $nama_kelas ?? 'Kelas tidak ditemukan' }}</p>
     </div>
 </body>
 </html>
