@@ -22,14 +22,26 @@
                     <div class="form-group">
                         <label for="nama">Nama:</label>
                         <input type="text" id="nama" name="nama" class="form-control">
+                        @foreach ($errors->get('nama') as $msg)
+                    <p class="text-danger">{{ $msg }}</p>
+                @endforeach
                     </div>
+
                     <div class="form-group">
                         <label for="npm">NPM:</label>
                         <input type="text" id="npm" name="npm" class="form-control">
+                        @foreach ($errors->get('npm') as $msg)
+                    <p class="text-danger">{{ $msg }}</p>
+                @endforeach
                     </div>
+
                     <div class="form-group">
-                        <label for="kelas">Kelas:</label>
-                        <input type="text" id="kelas" name="kelas" class="form-control">
+                        <label for="id_kelas">Kelas:</label><br>
+                        <select name="kelas_id" id="kelas_id" required>
+                            @foreach($kelas as $kelasItem)
+                            <option value="{{$kelasItem->id}}">{{$kelasItem->nama_kelas}}</option>
+                            @endforeach
+            </select>
                     </div>
                     <input type="submit" value="Submit" class="btn btn-primary btn-block">
                 </form>
