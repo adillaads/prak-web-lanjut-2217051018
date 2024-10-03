@@ -1,53 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
+
+
+@section('content')
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/create.css">
-    <title>Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
 
-    <div class="container">
-        <h1 class="text-center">Silahkan Isi Data</h1>
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <img src="/assets/img/cat.jpg" alt="Cat Image" class="img-fluid">
-            </div>
-            <div class="col-md-6">
-                <form action="{{ route('user.store') }}" method='post'>
-                    @csrf
-                    <div class="form-group">
-                        <label for="nama">Nama:</label>
-                        <input type="text" id="nama" name="nama" class="form-control">
-                        @foreach ($errors->get('nama') as $msg)
-                    <p class="text-danger">{{ $msg }}</p>
-                @endforeach
-                    </div>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-                    <div class="form-group">
-                        <label for="npm">NPM:</label>
-                        <input type="text" id="npm" name="npm" class="form-control">
-                        @foreach ($errors->get('npm') as $msg)
-                    <p class="text-danger">{{ $msg }}</p>
-                @endforeach
-                    </div>
+    form {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-                    <div class="form-group">
-                        <label for="id_kelas">Kelas:</label><br>
-                        <select name="kelas_id" id="kelas_id" required>
-                            @foreach($kelas as $kelasItem)
-                            <option value="{{$kelasItem->id}}">{{$kelasItem->nama_kelas}}</option>
-                            @endforeach
-            </select>
-                    </div>
-                    <input type="submit" value="Submit" class="btn btn-primary btn-block">
-                </form>
-            </div>
-        </div>
-    </div>
+    label {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        color: #333;
+    }
 
-</body>
-</html>
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div>
+    <!-- Isi Section -->
+    <form action="{{ route('user.store') }}" method="POST">
+        @csrf
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama"><br>
+
+        <label for="npm">NPM : </label>
+        <input type="text" id="npm" name="npm"><br>
+
+        <label for="kelas">Kelas :</label>
+        <select name="kelas_id" id="kelas_id">
+            @foreach ($kelas as $kelasItem)
+            <option value="{{ $kelasItem->id }}">{{ $kelasItem->nama_kelas }}</option>
+            @endforeach
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+@endsection
