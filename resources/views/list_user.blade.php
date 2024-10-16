@@ -1,124 +1,88 @@
 @extends('layouts.app')
 
-@section ('content')
-<head>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-</head>
+@section('content')
+<!-- Include Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
     body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif; /* Use Poppins font for the entire body */
     }
 
     .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+        margin-top: 20px;
     }
 
-    /* Button styling */
-    .btn-success {
-        background-color: #28a745;
-        color: white;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 6px;
-        font-size: 16px;
-        font-weight: 600;
-        text-transform: uppercase;
-        transition: background-color 0.3s ease, transform 0.3s ease;
+    h2 {
+        margin-bottom: 20px;
     }
 
-    .btn-success:hover {
-        background-color: #218838;
-        transform: translateY(-3px);
-    }
-
-    /* Table styling */
     .table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 30px;
-        background-color: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        overflow: hidden;
+        margin-top: 20px;
+        border: 1px solid #dee2e6; /* Optional: Add border to the table */
     }
 
     .table th, .table td {
-        padding: 15px;
-        text-align: left;
-        border: 1px solid #e9ecef;
+        padding: 12px; /* Optional: Adjust padding for table cells */
     }
 
-    .table th {
-        background-color: #f1f3f5;
-        color: #495057;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+    .alert {
+        margin-bottom: 20px;
     }
 
-    .table tbody tr:nth-child(even) {
-        background-color: #f8f9fa;
+    .btn-primary {
+        background-color: #007bff; /* Bootstrap primary button color */
+        border-color: #007bff; /* Bootstrap border color */
     }
 
-    .table tbody tr:hover {
-        background-color: #f1f3f5;
-        cursor: pointer;
+    .btn-warning {
+        background-color: #ffc107; /* Bootstrap warning button color */
+        border-color: #ffc107; /* Bootstrap border color */
     }
 
-    .table-group-divider {
-        border-top: 3px solid #dee2e6;
+    /* Optional: Additional styles for buttons on hover */
+    .btn-primary:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+        border-color: #0056b3; /* Darker border color on hover */
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .table {
-            font-size: 14px;
-        }
-
-        .btn-success {
-            font-size: 14px;
-            padding: 10px 20px;
-        }
+    .btn-warning:hover {
+        background-color: #e0a800; /* Darker shade on hover */
+        border-color: #e0a800; /* Darker border color on hover */
     }
 </style>
 
-
 <div class="container">
-    <div class="mb-3 mt-2 m-3">
-        <a href="{{ route('user.create') }}" class="btn btn-success">Tambah User</a>
-    </div>
+    <h2>Daftar Pengguna</h2>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+    <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Tambah Pengguna Baru</a>
 
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nama</th>
-                <th scope="col">NPM</th>
-                <th scope="col">Kelas</th>
-                <th scope="col">Aksi</th>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>NPM</th>
+                <th>Kelas</th>
+                <th>Aksi</th>
             </tr>
         </thead>
-        <tbody class="table-group-divider">
-            <?php
-              foreach ($users as $user) {
-            ?>
+        <tbody>
+            @foreach ($users as $user)
             <tr>
-                <td><?= $user['id'] ?></td>
-                <td><?= $user['nama'] ?></td>
-                <td><?= $user['npm'] ?></td>
-                <td><?= $user['nama_kelas'] ?></td>
-                <td></td>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->nama }}</td>
+                <td>{{ $user->npm }}</td>
+                <td>{{ $user->kelas->nama_kelas ?? 'Kelas Tidak Ditemukan' }}</td>
+                <td>
+                    <a href="{{ route('users.show', $user->id) }}" class="btn btn-warning mb-3">Detail</a>
+                </td>
             </tr>
-            <?php
-              }
-            ?>
+            @endforeach
         </tbody>
     </table>
 </div>
