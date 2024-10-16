@@ -13,7 +13,8 @@
         margin-top: 20px;
     }
 
-    h2 {
+    h1 {
+        text-align: center;
         margin-bottom: 20px;
     }
 
@@ -26,40 +27,37 @@
         padding: 12px; /* Optional: Adjust padding for table cells */
     }
 
-    .alert {
-        margin-bottom: 20px;
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
     }
 
-    .btn-primary {
-        background-color: #007bff; /* Bootstrap primary button color */
-        border-color: #007bff; /* Bootstrap border color */
-    }
-
-    .btn-warning {
-        background-color: #ffc107; /* Bootstrap warning button color */
-        border-color: #ffc107; /* Bootstrap border color */
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
     }
 
     /* Optional: Additional styles for buttons on hover */
-    .btn-primary:hover {
-        background-color: #0056b3; /* Darker shade on hover */
-        border-color: #0056b3; /* Darker border color on hover */
+    .btn-success:hover {
+        background-color: #218838; /* Darker shade on hover */
     }
 
-    .btn-warning:hover {
-        background-color: #e0a800; /* Darker shade on hover */
-        border-color: #e0a800; /* Darker border color on hover */
+    .btn-danger:hover {
+        background-color: #c82333; /* Darker shade on hover */
     }
 </style>
 
-<div class="container">
-    <h2>Daftar Pengguna</h2>
+<div class="container mt-5">
+    <h1>List Data</h1>
+
+    <!-- Success message -->
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
-    <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Tambah Pengguna Baru</a>
+
+    <a href="{{ route('user.create') }}" class="btn btn-success mb-3">Tambah User</a>
 
     <table class="table">
         <thead>
@@ -68,6 +66,7 @@
                 <th>Nama</th>
                 <th>NPM</th>
                 <th>Kelas</th>
+                <th>Foto</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -75,11 +74,23 @@
             @foreach ($users as $user)
             <tr>
                 <td>{{ $user->id }}</td>
-                <td>{{ $user->nama }}</td>
+                <td>{{ $user->nama }}</td> <!-- Changed from $user->name to $user->nama -->
                 <td>{{ $user->npm }}</td>
                 <td>{{ $user->kelas->nama_kelas ?? 'Kelas Tidak Ditemukan' }}</td>
                 <td>
-                    <a href="{{ route('users.show', $user->id) }}" class="btn btn-warning mb-3">Detail</a>
+                    <img src="{{ asset($user->foto) }}" alt="Foto User" width="100">
+                </td>
+                <td>
+                    <!-- View button -->
+                    <a href="{{ route('user.show', $user->id) }}" class="btn btn-warning mb-2">Lihat</a>
+                    <!-- Edit button -->
+                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary mb-2">Edit</a>
+                    <!-- Delete form -->
+                    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')">Hapus</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
