@@ -1,116 +1,151 @@
 @extends('layouts.app')
-
 @section('content')
-<!-- Include Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Poppins', sans-serif; /* Use Poppins font */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #D91656; /* Set background color to #D91656 */
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modul 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
-    .card {
-        background-color: white;
-        border-radius: 20px; /* Increased border radius for a softer look */
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.2); /* Deeper shadow for a more pronounced effect */
-        padding: 40px; /* Increased padding */
-        width: 400px; /* Increased width */
-        border: 2px solid #D91656; /* Set border color to #D91656 */
-        display: flex; /* Flexbox for vertical layout */
-        flex-direction: column; /* Stack elements vertically */
-    }
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #E75480; /* Warna Lotso */
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .header {
-        text-align: center; /* Center align header text */
-        margin-bottom: 20px; /* Space below header */
-    }
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border-radius: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            width: 500px;
+            padding: 40px 25px;
+            max-width: 90%;
+        }
 
-    .header h1 {
-        color: #D91656; /* Header text color */
-        margin-bottom: 10px; /* Space below header */
-        font-size: 24px; /* Larger font size for header */
-    }
+        .card h3 {
+            color: #8B0000;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
 
-    label {
-        color: #D91656; /* Set label color to #D91656 */
-        font-weight: bold;
-        margin-bottom: 5px;
-        display: block; /* Display labels as block elements */
-    }
+        .form-container {
+            width: 100%;
+        }
 
-    input[type="text"], select {
-        width: 100%;
-        padding: 12px; /* Increased padding for input fields */
-        border: 2px solid #D91656; /* Set input border color to #D91656 */
-        border-radius: 5px; /* Smaller border radius for input fields */
-        margin-bottom: 15px; /* Space below input fields */
-    }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-    button[type="submit"] {
-        background-color: #D91656; /* Set button background color to #D91656 */
-        color: white;
-        border: none;
-        border-radius: 5px; /* Smaller border radius for button */
-        padding: 12px; /* Increased padding */
-        cursor: pointer;
-        font-size: 16px;
-        width: 100%;
-        border: 2px solid #D91656; /* Set button border color to #D91656 */
-        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-    }
+        label {
+            font-weight: 500;
+            color: #333;
+            width: 30%; /* Lebar label */
+            margin-right: 10px;
+            text-align: right;
+        }
 
-    button[type="submit"]:hover {
-        background-color: #A91242; /* Darker shade for hover effect */
-    }
+        input[type="text"],
+        select,
+        input[type="file"] {
+            width: 70%; /* Lebar input */
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-size: 15px;
+        }
 
-    .text-danger {
-        color: red;
-        font-size: 14px;
-        margin: 5px 0;
-    }
-</style>
+        input[type="submit"] {
+            background-color: #8B0000;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.3s ease;
+        }
 
-<div class="card">
-    <div class="header">
-        <h1>Tambah Pengguna</h1>
+        input[type="submit"]:hover {
+            background-color: #6A0D0D;
+        }
+
+        .text-danger {
+            color: #ff0000;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            margin-left: 30%; /* Sesuaikan posisi error */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h3>CREATE USER</h3>
+
+        <div class="form-container">
+            <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="form-group">
+                    <label for="nama">Nama:</label>
+                    <input type="text" id="nama" name="nama" placeholder="Masukkan Nama">
+                </div>
+                @foreach ($errors->get('nama') as $msg)
+                    <p class="text-danger">{{ $msg }}</p>
+                @endforeach
+
+                <div class="form-group">
+                    <label for="npm">NPM:</label>
+                    <input type="text" id="npm" name="npm" placeholder="Masukkan NPM">
+                </div>
+                @foreach ($errors->get('npm') as $msg)
+                    <p class="text-danger">{{ $msg }}</p>
+                @endforeach
+
+                <div class="form-group">
+                    <label for="id_kelas">Kelas :</label>
+                    <select name="kelas_id" id="kelas_id" required>
+                        @foreach ($kelas as $kelasItem)
+                            <option value="{{ $kelasItem->id }}">{{ $kelasItem->nama_kelas }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jurusan_id">Jurusan:</label>
+                    <select name="jurusan_id" id="jurusan_id">
+                        <option value="" disabled selected>-- Pilih Jurusan --</option>
+                        @foreach ($jurusan as $jurusanItem)
+                            <option value="{{ $jurusanItem->id }}"
+                                {{ old('jurusan_id') == $jurusanItem->id ? 'selected' : '' }}>
+                                {{ $jurusanItem->nama_jurusan }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="foto">Foto Profil:</label>
+                    <input type="file" id="foto" name="foto" accept="image/*">
+                </div>
+
+                <div class="form-group" style="justify-content: center;">
+                    <input type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
     </div>
-    
-    <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        <label for="nama">Nama:</label>
-        <input type="text" id="nama" name="nama" required>
-        @foreach($errors->get('nama') as $msg)
-        <p class="text-danger">{{ $msg }}</p>
-        @endforeach
-
-        <label for="npm">NPM :</label>
-        <input type="text" id="npm" name="npm" required>
-        @foreach($errors->get('npm') as $msg)
-        <p class="text-danger">{{ $msg }}</p>
-        @endforeach
-
-        <label for="kelas">Kelas :</label>
-        <select name="kelas_id" id="kelas_id" required>
-            @foreach ($kelas as $kelasItem)
-            <option value="{{ $kelasItem->id }}"> {{ $kelasItem->nama_kelas }}</option>
-            @endforeach
-        </select>
-
-        <label for="foto">Foto : </label>
-        <input type="file" id="foto" name="foto" accept="image/*"><br><br>
-        @foreach($errors->get('foto') as $msg)
-        <p class="text-danger">{{ $msg }}</p>
-        @endforeach
-
-        <button type="submit">Submit</button><br>
-    </form>
-</div>
 @endsection
